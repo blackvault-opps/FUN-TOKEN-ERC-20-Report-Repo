@@ -1,0 +1,45 @@
+Powered By Intelligent Design™
+
+BlackVault Public Network is advancing its token, wallet, and digital workspace projects through documented development milestones. The current work brings together Vault Coin, SafeVault, and the BlackVault public platform, with FUNTOKEN providing a concrete Sepolia deployment record for the ecosystem’s technical documentation.
+
+## FUNTOKEN: three recorded deployments
+
+Three FunToken contracts, using the symbol **FUN**, were successfully deployed on **Sepolia, chain ID 11155111**, on 9–10 September 2026. Each deployment minted **20 FUN** to the deploying wallet. The three contracts contain identical deployed runtime code and maintain separate token balances and supplies.
+
+| Deployment | Date and time, UTC | Contract |
+| --- | --- | --- |
+| First | 9 September 2026, 11:41:48 | [0x4FE6…D870a](https://sepolia.etherscan.io/address/0x4fe664a5941f1b8317b5e1a5a2e4aab5032d870a) |
+| Second | 9 September 2026, 11:50:48 | [0xfb6B…CCC30](https://sepolia.etherscan.io/address/0xfb6b14ab39dbc1ce5b58f7bbd0442fa1838ccc30) |
+| Third | 10 September 2026, 00:44:00 | [0xC500…b6c47](https://sepolia.etherscan.io/address/0xc5009a5b1e91bee6ce941552e8b9e9e9f9db6c47) |
+
+The first contract also recorded a successful transfer of **1 FUN back to the sending wallet** on 12 September. This exercised the token’s transfer function while leaving that wallet’s token balance unchanged. [Transfer receipt](https://sepolia.etherscan.io/tx/0x2ccc2ea1f70a3e4b267a9da6b572c9233b724beea334acaa8c8fcd9daa6312d4).
+
+## The delegated wallet architecture
+
+The deploying wallet uses MetaMask’s **EIP7702StatelessDeleGator** implementation. Its delegation was established on **30 August 2026**, before the FUNTOKEN deployments. This account architecture supports authorized smart-account operations while retaining the wallet’s address. [Delegation transaction](https://sepolia.etherscan.io/tx/0x5791ec8e43180b66d70ae3c9e05ac60355f2de9afff00a4675aa7f8ad8a5c9ed), [MetaMask architecture documentation](https://github.com/MetaMask/delegation-framework/blob/main/documents/EIP7702DeleGator.md).
+
+FUNTOKEN’s deployment history therefore connects two distinct capabilities: standard ERC-20 token contracts and a deploying wallet equipped with EIP-7702 account functionality. The token creation receipts record ordinary type-2 contract-creation transactions. The wallet’s delegation does not alter the token contracts’ own functions.
+
+## Current project direction
+
+| Project | Recorded progress and purpose | Next milestone |
+| --- | --- | --- |
+| **BlackVault Public Network** | The public platform’s identity and core project structure are defined. Website and dashboard planning now includes token information and wallet connectivity. | Demonstrate the website, dashboard navigation, and wallet connection experience, then record the delivered version. |
+| **Vault Coin — VLT** | The project record includes upgradeable token implementation, subsequent control and documentation updates, and confirmation that PR #7 was merged. The production network target remains Ethereum mainnet, chain ID 1. | Complete the current implementation and release record, including the approved deployment identifiers when available. |
+| **SafeVault** | The product direction is a user-controlled cryptocurrency wallet and asset management experience, with clear balances, transaction history, and holder access. | Demonstrate the wallet lifecycle, asset display, transaction flow, and recovery experience in a working release. |
+| **FUNTOKEN — FUN** | Three Sepolia token deployments and a subsequent self-transfer are documented. | Designate the canonical test deployment, publish matching source documentation, and complete its dedicated wiki. |
+| **Vault AI** | The supporting browser workspace extension remains in planning as an Intelligent Operations Engine, or iOE, for connected work and continuity. | Define the first working feature set and demonstrate it before recording a release milestone. |
+
+Project development entries above reflect the recorded BlackVault project history. The FUNTOKEN deployment entries are supported by the explorer records linked in this brief.
+
+## Objectives to complete
+
+1. **Finalize FUNTOKEN’s public identity.** Select which of the three contract addresses represents the canonical Sepolia test asset and label the other deployments consistently.
+2. **Complete the source record.** Match the original compiler inputs and settings to the deployed token code, then complete source verification and readable function documentation.
+3. **Publish the dedicated FUNTOKEN wiki.** Include deployment receipts, token capabilities, the earlier delegation event, and the relationship between the token and its deploying account.
+4. **Align the website and dashboard.** Use the selected contract address and its correct network wherever FUN is displayed. Present VLT’s Ethereum production objective and FUN’s Sepolia deployment history with their own network labels.
+5. **Record working product milestones.** Add demonstrated SafeVault, dashboard, and Vault AI functionality to the project log as each deliverable is completed.
+
+**Krista Dawn**  
+Software Engineer & Product Architect  
+Blackvault Public Network
