@@ -1,0 +1,521 @@
+BlackVault — Internal Contract and Transaction Review
+
+Prepared 13 September 2026 · Records through 12 September · Krista Dawn
+
+Findings
+
+The three supplied FUNTOKEN deployments are successful Sepolia deployments. All three contain identical runtime code and each minted 20 FUN. The wallet’s EIP-7702 delegation predates the token deployments: its activation is recorded on 30 August. The FUN creation transactions themselves are direct type-2 contract creations from that wallet.
+
+This review also identified a successful 1-FUN self-transfer, two internal returns of Sepolia ETH missing from the normal-transaction CSV, the Safe contracts involved in those routes, and a recorded Safe threshold change from three signatures to two.
+
+The two portfolio CSVs are duplicates for an address Kraken identifies as its kBTC token contract. Their displayed valuations cannot be treated as balances established in Krista’s personal wallet.
+
+Review basis
+
+Reviewed the supplied screenshots, four CSV files, the additional JPEG files carrying .crdownload extensions, and the FUNTOKEN image. Retrieved the relevant Sepolia explorer pages directly, compared the three runtime bytecodes, examined receipt logs and internal transfers, and matched the verified DeleGator source files to MetaMask’s v1.3.0 publication.
+
+The separate Unconfirmed 2009.crdownload contains a Windows executable header rather than transaction data. It was identified by its bytes and was not executed or used as blockchain evidence.
+
+BlackVault repository, website, and Vault AI progress statements draw on the existing project record. This review did not refresh repository or website implementation status. No contracts, wallets, repositories, wiki pages, or source-verification records were changed; no blockchain transaction was signed or submitted.
+
+1. Address register
+
+Reference
+
+Address
+
+Finding
+
+Deployment wallet
+
+0x9d00701a151a60cec42dd75be82c5dde71f58de5
+
+EIP-7702 authority, deployment sender, and initial holder for all three FUN contracts.
+
+FUN 1
+
+0x4fe664a5941f1b8317b5e1a5a2e4aab5032d870a
+
+Deployed 9 September; 20 FUN minted; 1-FUN self-transfer recorded 12 September.
+
+FUN 2
+
+0xfb6b14ab39dbc1ce5b58f7bbd0442fa1838ccc30
+
+Deployed 9 September; 20 FUN minted; matching runtime.
+
+FUN 3
+
+0xc5009a5b1e91bee6ce941552e8b9e9e9f9db6c47
+
+Deployed 10 September; 20 FUN minted; matching runtime.
+
+Shared DeleGator
+
+0x63c0c19a282a1b52b07dd5a65b58948a07dae32b
+
+Verified MetaMask EIP7702StatelessDeleGator v1.3.0.
+
+DelegationManager
+
+0xdb9b1e94b5b69df7e401ddbede43491141047db3
+
+Framework contract called in five earlier redemption transactions.
+
+Safe proxy factory
+
+0x4e1dcf7ad4e460cfd30791ccc4f9c8a4f820ec67
+
+Appears in Safe creation logs.
+
+Safe A
+
+0xc1cc3138699e07b6d7b990dba8fae30b332a1ea6
+
+Created 30 August with four owners and threshold three; threshold changed to two on 8 September.
+
+Safe B
+
+0xb06a1ddcb9b31ecbb1a298c68954220ff96e3a03
+
+Created 31 August with the deployment wallet as its single owner and threshold one.
+
+Safe C
+
+0x8fcaed7b8069a28c010c7a33804f1cf9433e5770
+
+Created 2 September with two owners and threshold one.
+
+Additional receiving account
+
+0x126eeffa982e5b912a6d789ecd487bdc84b89a16
+
+Received Sepolia ETH and is one of Safe C’s configured owners.
+
+Exported portfolio address
+
+0x73e0c0d45e048d25fc26fa3159b0aa04bfa4db98
+
+Kraken’s published kBTC Ethereum contract address.
+
+Safe is the third-party smart-wallet contract framework shown in these receipts. These Safe deployments are separate from proof of delivery of BlackVault’s SafeVault application.
+
+2. What the existing FUN contracts permit
+
+The runtimes are 3,554 bytes each, including identical metadata. SHA-256 over decoded runtime bytes: 4f263d8e18d84b27961a38f64f506809909118222a953786a5851b499e0cf8fa.
+
+Their dispatch tables expose name, symbol, decimals, totalSupply, balanceOf, allowance, transfer, approve, and transferFrom. The decimals function returns 18. The creation logs show 20 tokens per contract. No external-call, delegatecall, contract-creation, or self-destruct opcode was found in the runtime after excluding compiler metadata.
+
+Action
+
+Result of this review
+
+Read metadata, balances, supply, and allowances
+
+Supported by the deployed interface.
+
+Send FUN held by the account
+
+Supported by transfer; the self-transfer receipt demonstrates a successful call.
+
+Approve a spender and use allowance-based transfers
+
+Supported by the interface. A separate functional demonstration is still to be recorded.
+
+Mint additional FUN
+
+No exposed mint function.
+
+Burn FUN through a burn function
+
+No exposed burn function.
+
+Pause, blacklist, confiscate, or administer other holders
+
+No exposed functions providing those powers.
+
+Transfer token-contract ownership
+
+No exposed ownership interface or administrator role. Receiving the initial supply is distinct from a contract administrator role.
+
+Upgrade the existing FUN code
+
+No exposed upgrade function or delegatecall path.
+
+Change onchain name, symbol, or decimals
+
+No exposed setters.
+
+Use permit, built-in staking, voting, or rewards
+
+No exposed functions for these features.
+
+Designate one deployment as canonical
+
+An offchain project documentation decision; it does not combine or remove the other contracts.
+
+These findings come from the deployed runtime and receipts. Exact source publication remains open. The metadata indicates Solidity 0.8.34; use the original build input to establish optimization, EVM target, and dependencies. The DeleGator’s Solidity 0.8.23 / 200-run settings belong to that separate implementation. FUN 1 code, FUN 2 code, FUN 3 code.
+
+3. What delegation adds, and where its authority ends
+
+The account’s earlier authorization is confirmed by the 30 August type-4 transaction. The implementation’s verified principal sources exactly match MetaMask’s v1.3.0 files. Authorization receipt, Verified implementation.
+
+Operation
+
+Required account context
+
+execute — single or batch
+
+The EntryPoint or the executing account itself.
+
+executeFromExecutor
+
+The configured DelegationManager.
+
+validateUserOp
+
+The EntryPoint and delegated account context.
+
+isValidSignature
+
+Delegated account context; the recovered signer must equal the executing account.
+
+enableDelegation / disableDelegation
+
+Authorized account execution; manages a specific permission delegation.
+
+addDeposit / withdrawDeposit
+
+Concerns the executing account’s EntryPoint deposit, with the applicable call restrictions.
+
+Connecting MetaMask to the shared implementation’s Etherscan page does not make that contract’s balances or account-dependent reads belong to the connected wallet. Account-specific queries should use the delegated wallet address and the implementation interface. The shared contract’s displayed native and token balances are separate.
+
+Framework-owner functions, including the DelegationManager’s pause and ownership controls, are not rights granted by using the framework. Permission revocation and replacing the account’s EIP-7702 code delegation are also different operations. This review established the recorded implementation and historical executions; it did not enumerate every outstanding offchain permission signature. MetaMask account core, DelegationManager source, EIP-7702.
+
+4. Earlier execution history
+
+All dates below are UTC. All native amounts in this section are Sepolia ETH.
+
+Date and time
+
+Transaction
+
+Observed result
+
+30 Aug, 14:31:36
+
+0x5791…5c9ed
+
+Enabled EIP-7702 delegation and created Safe A. Setup records four owners, threshold three.
+
+31 Aug, 04:26:12
+
+0xb51c…aa474
+
+Created Safe B. Setup records the deployment wallet as its single owner, threshold one.
+
+31 Aug, 11:26:24
+
+0x359a…c9852
+
+Safe B sent 0.001 to Safe A and 0.01 back to the deployment wallet.
+
+31 Aug, 11:29:24
+
+0x7d22…00d52
+
+Safe B sent 0.123 to Safe A.
+
+31 Aug, 11:30:24
+
+0x19e2…94636
+
+Safe B sent 0.208545 to Safe A.
+
+2 Sep, 03:32:24
+
+0xbb55…47720
+
+Created Safe C through the proxy factory. Setup records two owners, threshold one.
+
+8 Sep, 10:46:00
+
+0xc286…5ead
+
+Safe A returned 0.01695 to the deployment wallet.
+
+8 Sep, 10:47:24
+
+0x6808…0dd4
+
+Successful ChangedThreshold(2) event for Safe A.
+
+The five Redeem Delegations entries in the supplied CSV therefore have concrete earlier purposes: two Safe creations and three transfer executions. Their zero outer ETH values do not mean that the internal calls did nothing.
+
+Safe A’s setup owners were 0x9D00701A151A60cEC42Dd75be82c5DDE71f58DE5, 0xEB53Ec01F88e34D791bCbeffd900b254F1202ED9, 0x20F73879c15E1ccE0006fff0DeE8e962d3817DC9, and 0x061a621428111Bd7CE6AC7C7198D61606823C6A9. Its latest reviewed threshold event sets two signatures. Use that event to update the historical three-of-four entry; obtain a current configuration read before any future signing workflow.
+
+Safe C’s setup owners were 0xc4CeF93526380a8C8E0D3359887D07f50cB3Cde6 and 0x126EEFFA982E5b912A6D789ecD487BDC84b89a16. The deploying wallet was not listed as a Safe C owner at setup. Its creation role alone does not grant signing authority.
+
+5. Native transfer routes
+
+Initial transfer from deployment wallet
+
+Subsequent route and observed destination balance
+
+0.3444080109162246 to Safe A
+
+Safe A also received 0.332545 from Safe B, then returned 0.01695 to the deployment wallet. Its retrieved balance was 0.6600030109162246.
+
+0.403961302055367522 to 0x126E…9a16
+
+The retrieved address page showed the same balance and no sent transactions. The address is also a configured owner of Safe C. Personal ownership is not established merely by either fact.
+
+0.342545 to Safe B
+
+0.332545 moved to Safe A and 0.01 returned to the deployment wallet. Safe B’s retrieved native balance was zero.
+
+The Safe B route reconciles exactly: 0.001 + 0.123 + 0.208545 + 0.01 = 0.342545.
+
+The Safe A route also reconciles: 0.3444080109162246 + 0.332545 − 0.01695 = 0.6600030109162246.
+
+These are Sepolia accounting results. The explorer’s dollar column does not convert these testnet balances into mainnet ETH or an established cash withdrawal amount. Safe A balance, Safe B balance, Receiving account.
+
+6. Deployment wallet reconciliation
+
+The supplied normal-transaction CSV contains 18 records. It excludes the internal return flows and the later 12 September self-transfer. Exact receipt amounts and fees reconcile with the retrieved wallet balance:
+
+Component
+
+Sepolia ETH
+
+Six direct incoming transfers in the CSV
+
+1.601000000000000000
+
+Three direct outgoing native transfers
+
+−1.090914312971592122
+
+Sender-paid fees for the CSV’s outgoing transactions
+
+−0.009182573001124852
+
+Internal return from Safe B
+
++0.010000000000000000
+
+Internal return from Safe A
+
++0.016950000000000000
+
+Balance before the 12 September self-transfer
+
+0.527853114027283026
+
+12 September self-transfer fee
+
+−0.000069009899951160
+
+Reconciled balance after the self-transfer
+
+0.527784104127331866
+
+The last value matches the retrieved deployment-wallet page. The 1-FUN self-transfer changed native ETH only by its fee; FUN left and returned to the same account in the same transfer. Wallet record, Self-transfer receipt.
+
+7. Other supplied exports
+
+DeleGator token-transfer export
+
+The export for 0x63c0…e32b lists four incoming transfers: 0.999 of a token shown as Tether, two receipts of 100 of a token shown as PayPal USD, and 0.00002 of a token shown as Good… on Sepolia. Those entries concern the shared implementation address. None of the four CSV sender addresses is the deployment wallet. The file does not establish that these assets originated in Krista’s wallets, nor identify all token contracts through its truncated labels.
+
+The implementation page showed 0.316564610021 Sepolia ETH, 200 PYUSD, 0.999 USDT, and 0.00002 GSK when retrieved. Its history includes other accounts’ calls from before the BlackVault activity. Those transactions are not FUNTOKEN token transactions simply because the wallet uses that implementation. Shared implementation record.
+
+Duplicate kBTC-address portfolio exports
+
+The files ending 11_13_57.378Z.csv and 11_14_10.075Z.csv are byte-for-byte identical. Every row identifies 0x73e0…db98 as the account address. Kraken publishes that exact address as its kBTC Ethereum smart contract. Kraken’s kBTC address register.
+
+Export network / chain ID
+
+Exported asset amount
+
+Exported USD valuation
+
+Ethereum / 1
+
+0.00046893 KBTC
+
+$36.25
+
+OP Mainnet / 10
+
+66.998149 USDC
+
+$66.99
+
+Chain 999
+
+0.1558086378390467 HYPE
+
+$12.44
+
+Base / 8453
+
+0.0013 ETH
+
+$3.29
+
+Base / 8453
+
+4.242277 USDC
+
+$4.24
+
+One export’s displayed total
+
+
+
+$123.21
+
+This is one duplicated address-portfolio snapshot, not two portfolios. The prices were supplied by the export and were not refreshed. The data neither proves personal ownership nor supplies the originating transaction hashes needed to link an asset to a personal-wallet transfer. To examine a personal balance, the input must identify the holder’s account address separately from the token contract address.
+
+8. Explorer details resolved
+
+Observation
+
+Interpretation
+
+Three successful creations with 0 ETH value
+
+Three token deployments, each with an initial token mint and a separate native gas fee.
+
+All three consumed the same gas
+
+Consistent with their identical creation behavior and matching runtime.
+
+99.09% of gas limit used
+
+Gas consumed relative to the submitted limit. All three receipts record success.
+
+Zero address in the mint log
+
+Standard mint event origin; recipient was the deployment wallet.
+
+Zero address marked Producer in the state view
+
+The block fee-recipient entry. Its displayed accumulated balance does not belong to the token deployer.
+
+Native fee burn
+
+The EIP-1559 base-fee component, distinct from FUN supply.
+
+Storage locations ending 2, 3, or 4
+
+Contract storage positions, not destination wallet addresses. The visible values correspond to supply and token metadata.
+
+Cross-chain similar-match verification returned no match
+
+That verification lookup did not find a match; the successful deployment remains recorded. The token pages still invite source verification.
+
+MetaMask’s general asset search returned no result
+
+Does not contradict the contract record or the separate Sepolia token display.
+
+9. Objectives and required inputs
+
+Objective
+
+Current position
+
+Input or completion criterion
+
+Document the three FUN deployments
+
+Completed by this review
+
+Deployment register and receipt links prepared.
+
+Explain earlier delegation
+
+Completed by this review
+
+30 August authorization and verified implementation identified.
+
+Reconcile supplied native transaction history
+
+Completed for the reviewed wallet and routes
+
+Exact fees and internal returns reconcile the displayed wallet balance.
+
+Select canonical FUN contract
+
+Owner decision pending
+
+Choose FUN 1, 2, or 3; each currently has matching code. FUN 1 has the recorded self-transfer.
+
+Publish matching FUN source
+
+To finish
+
+Original Remix source, compiler input/output, optimizer and EVM settings, and dependencies. No keys or seed phrases are needed.
+
+Complete FUN functional documentation
+
+Partially evidenced
+
+Record a transfer to another holder and the allowance workflow when separately authorized and performed.
+
+Reconcile current wallet permissions
+
+Partially reviewed
+
+Current delegation state, any outstanding permission records, and current Safe owner/threshold configuration.
+
+Update Safe A history
+
+New result established
+
+Record the 8 September threshold-two event alongside its threshold-three setup.
+
+Finish public wiki publication
+
+Draft prepared
+
+Review the publication text and authorize the specific publishing action.
+
+Confirm website/dashboard delivery
+
+Build request exists; delivery not inspected here
+
+Working URL/version and demonstrated navigation, token display, wallet connection, and transaction history.
+
+Confirm SafeVault release scope
+
+Product architecture defined; release not demonstrated here
+
+Working holder access, wallet lifecycle, asset management, and recovery flow.
+
+Close VLT release documentation
+
+PR #7 merge was previously reported
+
+Current approved implementation record, network/owner configuration, and deployment identifiers when issued.
+
+Define Vault AI’s initial release
+
+Planning project
+
+A bounded first feature set and a working demonstration.
+
+Relate kBTC-address assets to personal transfers
+
+Origin not established by the portfolio export
+
+Actual personal public wallet addresses and transaction hashes on the relevant networks.
+
+The earlier VLT record of 53 passing tests, 128,000 invariant calls, and 96.61% coverage is historical. It was not rerun or verified against a current repository revision in this review. FUNTOKEN’s Sepolia correction does not, by itself, change Vault Coin’s Ethereum-mainnet production target.
+
+For a future publication or source-verification action, the proposed work is to publish the reviewed text or matching source for explicitly selected addresses, using the supplied original build inputs. The expected outcome is a consistent public wiki and readable explorer source. Those external changes remain subject to the owner’s specific written authorization.
+
+Krista Dawn
+Software Engineer & Product Architect
+Blackvault Public Network
