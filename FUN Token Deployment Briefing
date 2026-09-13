@@ -1,0 +1,359 @@
+Canonical FUN Token Deployment Briefing
+1.1 Contract Identity
+Contract Name: FunToken
+
+Standard: ERC‑20 (OpenZeppelin)
+
+Network: Sepolia (Chain ID: 11155111)
+
+Contract Address: 0x4FE664a594f11BB317B5E1a5a2E4AAB5032D870a
+
+Deployer: 0x9D00701A151A60cEC42Dd75be82c5DDE71f58DE5
+
+Deployment Block: 11667722
+
+Deployment Tx: 0xfaa114d14e4553adfd500caae0cc29abf18b6ff2990f57fc524bc3a679e3b144
+
+1.2 Supply Model
+Total Supply: 20 * 10^18
+
+Mint Logic:
+
+solidity
+_mint(msg.sender, 20 * 10**18);
+Post‑Deployment Supply: Fixed, immutable
+
+Admin Functions: None
+
+Upgradeability: None
+
+1.3 Compiler & Build Metadata
+Solidity Version: 0.8.x
+
+Optimizer: Enabled
+
+Optimizer Runs: 200
+
+Build System: Hardhat (assumed)
+
+Artifacts:
+
+/artifacts/FunToken.json
+
+/docs/FUNToken_ABI.json
+
+/docs/FUNToken_Flattened.sol
+
+1.4 Verification Metadata
+Verification: Completed
+
+Source Type: Flattened
+
+Constructor Arguments: None
+
+Metadata Hash: Stored in Etherscan verification record
+
+1.5 Interface Summary
+ERC‑20 Methods
+totalSupply()
+
+balanceOf(address)
+
+transfer(address,uint256)
+
+approve(address,uint256)
+
+transferFrom(address,address,uint256)
+
+allowance(address,address)
+
+Events
+Transfer(address,address,uint256)
+
+Approval(address,address,uint256)
+
+1.6 Integration Targets
+SAFE (Sepolia)
+
+MetaMask
+
+Rabby
+
+Coinbase Wallet
+
+Trust Wallet
+
+BlackVault Networks (Phase 2)
+
+2. FUN Token Test Report (Technical Edition)
+2.1 Test Environment
+Network: Sepolia
+
+RPC Provider: Alchemy/Infura (assumed)
+
+Wallets: MetaMask, Safe
+
+Testing Tools:
+
+Hardhat console
+
+Safe App interface
+
+Wallet UIs
+
+2.2 Functional Tests
+2.2.1 Balance Recognition
+Procedure:
+
+Import token into MetaMask
+
+Query balance via RPC
+
+Result:
+
+Symbol: FUN
+
+Decimals: 18
+
+Balance: 20 FUN
+
+Status: ✔ Passed
+
+2.2.2 Transfer Test
+Procedure:
+
+solidity
+transfer(recipient, 1 ether)
+Expected:
+
+Transfer event emitted
+
+Recipient balance increments
+
+Actual:
+
+✔ Passed
+
+Gas: ~51k
+
+2.2.3 Allowance Test
+Procedure:
+
+solidity
+approve(spender, 5 ether)
+transferFrom(owner, spender, 5 ether)
+Expected:
+
+Allowance respected
+
+TransferFrom succeeds
+
+Actual:
+
+✔ Passed
+
+2.2.4 Safe (Sepolia) Asset Recognition
+Procedure:
+
+Add FUN Token to Safe
+
+Check metadata rendering
+
+Actual:
+
+✔ Passed
+
+Logo displayed
+
+Balance correct
+
+2.2.5 UI Metadata Rendering
+Procedure:
+
+Load FUN Token in multiple wallet UIs
+
+Actual:
+
+✔ Passed
+
+Symbol, decimals, logo all correct
+
+3. Metadata Bundle for Tokenlists (Technical Edition)
+3.1 Canonical JSON
+json
+{
+  "name": "FunToken",
+  "symbol": "FUN",
+  "decimals": 18,
+  "chainId": 11155111,
+  "address": "0x4FE664a594f11BB317B5E1a5a2E4AAB5032D870a",
+  "logoURI": "https://raw.githubusercontent.com/blackvault-opps/FUNTOKEN_Publication_Repo/main/assets/FUN/logo.png",
+  "tags": ["test-token", "blackvault", "safevault"],
+  "description": "FunToken (FUN) is a minimal fixed-supply ERC-20 asset deployed on Sepolia for BlackVault ecosystem testing and SAFEVAULT integration."
+}
+3.2 Registry Requirements
+Safe Tokenlist
+Required fields: chainId, address, symbol, decimals
+
+Uniswap Tokenlist
+Must be added under /tokens array
+
+Requires semantic version bump
+
+TrustWallet
+Requires /assets/blockchains/sepolia/assets/<address>/logo.png
+
+PNG must be 256×256
+
+MetaMask Portfolio
+Requires HTTPS logo URI
+
+JSON must be accessible via public GitHub
+
+4. GitHub Wiki Page Structure (Technical Edition)
+4.1 Wiki Directory
+Code
+/Home
+/Token-Deployments
+    /FUN-Token
+        Overview
+        Deployment-Summary
+        Technical-Specification
+        Verification-Metadata
+        Test-Report
+        Token-Metadata
+        Asset-Image
+        Publishing-Checklist
+/SafeVault-Integration
+    FUN-Integration
+    Vault-Layer-Design
+    UI-Interaction-Flow
+    API-Endpoints
+4.2 Page Definitions
+FUN Token – Overview
+Purpose
+
+Network
+
+Contract identity
+
+Supply model
+
+FUN Token – Deployment Summary
+Tx hash
+
+Block
+
+Deployer
+
+Mint logic
+
+ABI reference
+
+FUN Token – Technical Specification
+ERC‑20 behavior
+
+ABI
+
+Bytecode
+
+Compiler metadata
+
+FUN Token – Verification Metadata
+Flattened source
+
+Compiler settings
+
+Optimization settings
+
+FUN Token – Test Report
+All functional tests
+
+RPC logs
+
+Wallet screenshots (optional)
+
+FUN Token – Publishing Checklist
+Tokenlists
+
+Registries
+
+Logo requirements
+
+JSON validation
+
+5. SafeVault Integration Outline (Technical Edition)
+5.1 Integration Objectives
+Provide FUN Token visibility inside SafeVault
+
+Enable ERC‑20 operations via Safe transaction builder
+
+Prepare FUN Token for Phase 2 ecosystem modules
+
+Validate metadata consistency across SAFE and BlackVault Networks
+
+5.2 System Architecture
+Frontend
+BlackVault Networks UI
+
+SafeVault UI components
+
+Middleware
+Token metadata loader
+
+Safe transaction builder
+
+RPC provider abstraction
+
+Backend
+Sepolia RPC
+
+Safe API
+
+Tokenlist registry
+
+5.3 Integration Workflow
+Step 1 — Register FUN Token
+Add FUN Token to SafeVault asset registry
+
+Validate metadata
+
+Step 2 — Implement Balance Reader
+RPC call:
+
+solidity
+balanceOf(user)
+Step 3 — Implement ERC‑20 Action Modules
+Transfer module
+
+Approve module
+
+Allowance viewer
+
+Step 4 — Safe Transaction Builder
+Build Safe transaction payloads
+
+Encode ERC‑20 calls
+
+Submit via Safe API
+
+Step 5 — UI Integration
+Display FUN Token balance
+
+Display metadata
+
+Provide action buttons
+
+Step 6 — Integration Testing
+Test Safe transaction execution
+
+Validate UI rendering
+
+Validate metadata consistency
+
+Step 7 — Documentation Freeze
+Tag release: v1.0.0-FUN
+
+Update Wiki index
+
+Mark FUN Token as “Ready for Ecosystem Integration”
