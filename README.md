@@ -111,6 +111,19 @@ The deployed feature set is fixed. The reviewed runtime exposes no public mint, 
 
 Holding the initial supply provides the holder’s transfer and allowance permissions. It does not establish a separate token administrator role.
 
+Wallet Compatibility
+FUN Token is recognized by:
+
+MetaMask
+
+Safe (Sepolia)
+
+Rabby
+
+Coinbase Wallet
+
+Trust Wallet
+
 Publishing the matching Solidity source, ABI, and build settings remains a documentation milestone.
 
 ---
@@ -172,6 +185,14 @@ Transfers between different holders and the approval-based spending workflow rem
 4. **Keep the deployment consistent.** Use the same network and contract address when comparing balances or connecting an application.
 
 ---
+Integration Roadmap
+SafeVault integration
+
+BlackVault Networks website integration
+
+FUN Token dashboard module
+
+Ecosystem documentation freeze (v1.0.0-FUN)
 
 ## Project milestones
 
@@ -193,6 +214,18 @@ Transfers between different holders and the approval-based spending workflow rem
 - [ ] Document approval-based spending.
 - [ ] Expand the project wiki with the deployment chronology and integration examples.
 
+Publishing Targets
+FUN Token will be published to:
+
+GitHub tokenlist
+
+TrustWallet asset registry
+
+Uniswap tokenlist
+
+MetaMask Portfolio tokenlist
+
+Safe tokenlist
 ---
 
 **Documentation snapshot:** 13 September 2026  
