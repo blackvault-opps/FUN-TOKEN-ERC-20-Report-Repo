@@ -111,18 +111,9 @@ The deployed feature set is fixed. The reviewed runtime exposes no public mint, 
 
 Holding the initial supply provides the holder’s transfer and allowance permissions. It does not establish a separate token administrator role.
 
-Wallet Compatibility
-FUN Token is recognized by:
+### Wallet display
 
-MetaMask
-
-Safe (Sepolia)
-
-Rabby
-
-Coinbase Wallet
-
-Trust Wallet
+FUN uses the ERC-20 interface on Sepolia. Wallet display depends on Sepolia support, the exact contract address, and token-import configuration. Compatibility demonstrations should be recorded per wallet and deployment; the project does not treat a proposed wallet list as a completed integration.
 
 Publishing the matching Solidity source, ABI, and build settings remains a documentation milestone.
 
@@ -185,14 +176,13 @@ Transfers between different holders and the approval-based spending workflow rem
 4. **Keep the deployment consistent.** Use the same network and contract address when comparing balances or connecting an application.
 
 ---
-Integration Roadmap
-SafeVault integration
+## SafeVault and Vault AI integration
 
-BlackVault Networks website integration
+SafeVault Homebase is the primary BlackVault smart-account experience. Existing external wallets are optional connections. FUN is a separate Sepolia asset context in that interface; each recorded token contract retains its own balances and allowances.
 
-FUN Token dashboard module
+Vault AI is the workspace agent being configured in Botpress. It can explain FUN deployment and transfer evidence through enabled Sepolia tools. A FUN balance is a holding, not evidence of an unclaimed allocation. The first production recovery workflow targets Ethereum mainnet separately.
 
-Ecosystem documentation freeze (v1.0.0-FUN)
+See [integration status](docs/INTEGRATION_STATUS.md) for canonical-address selection and supported workflow requirements.
 
 ## Project milestones
 
@@ -214,21 +204,13 @@ Ecosystem documentation freeze (v1.0.0-FUN)
 - [ ] Document approval-based spending.
 - [ ] Expand the project wiki with the deployment chronology and integration examples.
 
-Publishing Targets
-FUN Token will be published to:
+## Token-list publication
 
-GitHub tokenlist
+Token-list or wallet-registry publication is a future distribution task. This repository does not record acceptance into an external registry. Select the canonical Sepolia deployment and confirm each registry's network and submission requirements before recording a listing as complete.
 
-TrustWallet asset registry
-
-Uniswap tokenlist
-
-MetaMask Portfolio tokenlist
-
-Safe tokenlist
 ---
 
-**Documentation snapshot:** 13 September 2026  
+**Documentation updated:** 18 September 2026  
 **Transaction records covered:** Through 12 September 2026
 
 **Krista Dawn**  
